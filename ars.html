@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aeries - Your AI Tech Buddy</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="ars.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
+  </head>
+
+  <body>
+    <div id="vanta-bg"></div>
+
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <div class="logo-icon">
+              <i class="fas fa-comments"></i>
+            </div>
+            <div class="logo-text">
+              <h1>Aeries</h1>
+              <p>Your AI Tech Buddy</p>
+            </div>
+          </div>
+
+          <div class="header-actions">
+            <button
+              class="theme-toggle"
+              id="themeToggle"
+              aria-label="Toggle theme"
+            >
+              <i class="fas fa-moon"></i>
+            </button>
+
+            <div class="auth-buttons" id="authButtons">
+              <button class="btn-secondary" id="loginBtn">
+                <i class="fas fa-sign-in-alt"></i>
+                Login
+              </button>
+              <button class="btn-primary" id="signupBtn">
+                <i class="fas fa-user-plus"></i>
+                Sign Up
+              </button>
+            </div>
+
+            <div class="user-info hidden" id="userInfo">
+              <span class="welcome-text"
+                >Welcome, <span id="userName"></span
+              ></span>
+              <button class="btn-secondary" id="logoutBtn">Logout</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="container">
+        <div class="chat-container">
+          <div class="welcome-screen" id="welcomeScreen">
+            <div class="welcome-content">
+              <div class="welcome-avatar"><span>A</span></div>
+              <h2>Welcome to Aeries!</h2>
+              <p>I'm your AI tech buddy. How can I help you !</p>
+              <div class="suggestion-chips">
+                <button class="chip" data-suggestion="What is React?">
+                  What is React?
+                </button>
+                <button class="chip" data-suggestion="Explain Node.js">
+                  Explain Node.js
+                </button>
+                <button class="chip" data-suggestion="What is HTML?">
+                  What is HTML?
+                </button>
+                <button class="chip" data-suggestion="What is CSS?">
+                  What is CSS?
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="chat-messages hidden" id="chatMessages">
+            <div class="messages-container" id="messagesContainer"></div>
+          </div>
+
+          <div class="chat-input-container">
+            <form class="chat-form" id="chatForm">
+              <div class="input-wrapper">
+                <input
+                  type="text"
+                  id="messageInput"
+                  placeholder="Ask me about programming concepts..."
+                  autocomplete="off"
+                />
+                <button
+                  type="button"
+                  class="voice-btn"
+                  id="voiceBtn"
+                  aria-label="Voice input"
+                >
+                  <i class="fas fa-microphone"></i>
+                </button>
+                <button
+                  type="submit"
+                  class="send-btn"
+                  id="sendBtn"
+                  aria-label="Send message"
+                >
+                  <i class="fas fa-paper-plane"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <span>Aeries - Your AI Tech Buddy</span>
+          <i class="fas fa-heart heart-icon"></i>
+          <span>Built with love for developers</span>
+        </div>
+        <p class="copyright">© 2025 Aeries. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <div class="modal-overlay hidden" id="modalOverlay">
+      <div class="modal" id="authModal">
+        <div class="modal-header">
+          <h2 id="modalTitle">Welcome Back</h2>
+          <button class="modal-close" id="modalClose" aria-label="Close modal">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <form class="modal-form" id="authForm">
+          <div class="form-group hidden" id="nameGroup">
+            <label for="nameInput">Full Name</label>
+            <div class="input-group">
+              <i class="fas fa-user"></i>
+              <input
+                type="text"
+                id="nameInput"
+                placeholder="Enter your full name"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="emailInput">Email Address</label>
+            <div class="input-group">
+              <i class="fas fa-envelope"></i>
+              <input
+                type="email"
+                id="emailInput"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="passwordInput">Password</label>
+            <div class="input-group">
+              <i class="fas fa-lock"></i>
+              <input
+                type="password"
+                id="passwordInput"
+                placeholder="Enter your password"
+                required
+              />
+              <button type="button" class="password-toggle" id="passwordToggle">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary btn-full" id="authSubmitBtn">
+            <span class="btn-text">Sign In</span>
+            <div class="loading-spinner hidden">
+              <i class="fas fa-spinner fa-spin"></i>
+            </div>
+          </button>
+        </form>
+
+        <div class="modal-footer">
+          <p id="switchModeText">
+            Don't have an account?
+            <button type="button" class="link-btn" id="switchModeBtn">
+              Sign up
+            </button>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="ars.js"></script>
+
+    <script>
+      VANTA.FOG({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        highlightColor: 0x9338e0,
+        midtoneColor: 0x4290ff,
+        lowlightColor: 0x9482f3,
+        baseColor: 0x671720,
+        blurFactor: 0.6,
+        speed: 1.0,
+      });
+    </script>
+  </body>
+</html>

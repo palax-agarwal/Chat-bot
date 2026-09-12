@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aeries - Welcome</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.halo.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body,
+      html {
+        height: 100%;
+        font-family: "Inter", sans-serif;
+        overflow: hidden;
+      }
+
+      #vanta-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 2;
+      }
+
+      .content {
+        position: relative;
+        z-index: 3;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+      }
+
+      .welcome-text {
+        font-size: clamp(2.5rem, 8vw, 7rem);
+        font-weight: 700;
+        color: white;
+        text-align: center;
+        margin-bottom: 3rem;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+      }
+
+      .typing-cursor {
+        opacity: 1;
+        animation: blink 1s infinite;
+        color: #6366f1;
+      }
+
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 1;
+        }
+        51%,
+        100% {
+          opacity: 0;
+        }
+      }
+
+      .divider {
+        width: 100%;
+        max-width: 600px;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          #6366f1,
+          #8b5cf6,
+          transparent
+        );
+        margin-bottom: 3rem;
+        opacity: 0.8;
+      }
+
+      .get-started-btn {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        background: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef);
+        background-size: 200% 200%;
+        border: none;
+        padding: 1rem 2.5rem;
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: white;
+        border-radius: 50px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+        animation: gradient-shift 3s ease infinite;
+      }
+
+      .get-started-btn.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .get-started-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .get-started-btn:hover::before {
+        left: 100%;
+      }
+
+      .get-started-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 35px rgba(99, 102, 241, 0.4);
+      }
+
+      .get-started-btn:active {
+        transform: translateY(0);
+      }
+
+      @keyframes gradient-shift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      .particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 50%;
+        animation: float 8s infinite linear;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(100vh) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100px) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .content {
+          padding: 1rem;
+        }
+
+        .welcome-text {
+          margin-bottom: 2rem;
+        }
+
+        .divider {
+          margin-bottom: 2rem;
+        }
+
+        .get-started-btn {
+          padding: 0.875rem 2rem;
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="vanta-bg"></div>
+    <div class="overlay"></div>
+    <div class="particles" id="particles"></div>
+
+    <div class="content">
+      <h1 class="welcome-text" id="welcome-text">
+        <span class="typing-cursor">|</span>
+      </h1>
+      <div class="divider"></div>
+      <button class="get-started-btn" id="get-started-btn">Get Started</button>
+    </div>
+    <script src="ars.html"></script>
+    <script>
+      let vantaEffect = VANTA.HALO({
+        el: "#vanta-bg",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.0,
+        minWidth: 200.0,
+        backgroundColor: 0x0a0a0a,
+        baseColor: 0x4338ca,
+        amplitudeFactor: 1.2,
+        xOffset: 0.1,
+        yOffset: 0.1,
+        size: 1.5,
+      });
+
+      const welcomeText = document.getElementById("welcome-text");
+      const getStartedBtn = document.getElementById("get-started-btn");
+      const fullText = "Welcome to Aeries";
+      let currentText = "";
+      let index = 0;
+
+      function typeText() {
+        if (index < fullText.length) {
+          currentText += fullText.charAt(index);
+          welcomeText.innerHTML =
+            currentText + '<span class="typing-cursor">|</span>';
+          index++;
+          setTimeout(typeText, 100);
+        } else {
+          setTimeout(() => {
+            welcomeText.innerHTML = currentText;
+            getStartedBtn.classList.add("show");
+          }, 500);
+        }
+      }
+
+      setTimeout(typeText, 1000);
+
+      function createParticle() {
+        const particle = document.createElement("div");
+        particle.className = "particle";
+        particle.style.left = Math.random() * 100 + "%";
+        particle.style.animationDelay = Math.random() * 8 + "s";
+        particle.style.animationDuration = Math.random() * 3 + 5 + "s";
+        document.getElementById("particles").appendChild(particle);
+
+        setTimeout(() => {
+          particle.remove();
+        }, 8000);
+      }
+
+      setInterval(createParticle, 300);
+
+      getStartedBtn.addEventListener("click", function () {
+        const ripple = document.createElement("span");
+        ripple.style.position = "absolute";
+        ripple.style.borderRadius = "50%";
+        ripple.style.background = "rgba(255, 255, 255, 0.3)";
+        ripple.style.transform = "scale(0)";
+        ripple.style.animation = "ripple 0.6s linear";
+        ripple.style.left = "50%";
+        ripple.style.top = "50%";
+        ripple.style.width = "20px";
+        ripple.style.height = "20px";
+        ripple.style.marginLeft = "-10px";
+        ripple.style.marginTop = "-10px";
+
+        this.appendChild(ripple);
+
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+
+        setTimeout(() => {
+          window.location.href = "ars.html"; 
+        }, 600);
+      });
+
+      const style = document.createElement("style");
+      style.textContent = `
+  @keyframes ripple {
+    to {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
+`;
+      document.head.appendChild(style);
+
+      window.addEventListener("resize", () => {
+        if (vantaEffect) {
+          vantaEffect.resize();
+        }
+      });
+    </script>
+  </body>
+</html>
