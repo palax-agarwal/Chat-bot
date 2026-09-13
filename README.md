@@ -30,3 +30,9 @@ A simple, friendly human-interface chatbot built with pure HTML, CSS, and JavaSc
 ## Basic chatbot functionality
 
 Type a message in the input box and press **Enter** (or click the send button). The user message appears on the right and the bot's reply appears on the left. Empty messages are ignored, and unknown questions get a friendly fallback response.
+
+## Copyright
+
+© 2025 Palax Agarwal. All Rights Reserved.
+
+This project and its source code are proprietary and belong to Palax Agarwal. They may not be copied, modified, redistributed, or used commercially without permission. See the [LICENSE](LICENSE) file for details.

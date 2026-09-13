@@ -1,3 +1,9 @@
+/*
+  © 2025 Palax Agarwal. All Rights Reserved.
+  This project and its source code are proprietary and may not be
+  copied, modified, redistributed, or used commercially without permission.
+*/
+
 const botKnowledge = {
   html: "HTML stands for HyperText Markup Language. It is used to structure web pages.",
   css: "CSS stands for Cascading Style Sheets. It is used to style and design web pages.",
